@@ -28,6 +28,7 @@ function sys_config {
 	if [ ! -d /root/.ssh ]; then
 		ssh-keygen -b 2048 -t rsa -N "" -f "/root/.ssh/id_rsa"
 	fi
+	systemctl restart ntpd
 	printf "system config complete.\n"
 }
 
