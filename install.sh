@@ -1,10 +1,10 @@
 #!/bin/sh
 
 function install {
-	tools="vim git samba-client wget telnet nmap-ncat lrzsz unzip zip tcpdump traceroute ntp openssl"
-	dev="gcc gcc-c++ gdb make cmake valgrind zlib-devel pcre-devel openssl-devel"
+	tools="vim git samba-client wget telnet nmap-ncat lrzsz unzip zip tcpdump traceroute ntp openssl strace mariadb bind-utils"
+	dev="gcc gcc-c++ gdb make cmake valgrind zlib-devel pcre-devel openssl-devel curl-devel"
 	system="man-pages"
-	servers="samba sqlite"
+	servers="samba sqlite mariadb-server"
 	
 	yum install -y ${tools} ${dev} ${system} ${servers} >/dev/null 2>&1
 	printf "packages install complete.\n"
@@ -79,6 +79,11 @@ function git_config {
 		fi
 	fi
 	printf "git config complete.\n"
+}
+
+function svr_config {
+	systemctl enable mariadb
+	systemctl start mariadb
 }
 
 function samba_config {
@@ -170,6 +175,7 @@ vim_config
 git_config
 net_config
 sys_config
+svr_config
 samba_config
 selinux_config
 firewall_config
